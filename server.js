@@ -177,5 +177,7 @@ function passwordIsValid(user, pass) {
   // }
 }
 
-app.listen(8000,function() {console.log('listening!')});
+var port = process.env.PORT || 8000;
+
+app.listen(port,function() {console.log('listening!')});
 
