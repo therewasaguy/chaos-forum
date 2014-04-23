@@ -27,7 +27,7 @@
             <a class="pure-menu-heading" href="/">Title</a>
 
             <ul>
-                <li><a href="#">All Posts <span class="email-count">(2)</span></a></li>
+                <li><a href="#">All Posts <span class="email-count">{{{posts.length}}}</span></a></li>
                 <li class="pure-menu-heading">Labels</li>
                 <li><a href="#"><span class="email-label-work"></span>Unresolved</a></li>
                 <li><a href="#"><span class="email-label-personal"></span>Open</a></li>
@@ -39,31 +39,29 @@
 
     <div id="list" class="pure-u-1">
         <div class="email-item email-item-selected pure-g">
+            {{#posts}}
             <div class="pure-u">
-                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src="img/common/tilo-avatar.png">
+                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ imageSmall }} >
             </div>
-
-            {{#each post}}
             <div class="pure-u-3-4">
-                <h5 class="email-name"> {{{ email }}} a</h5>
-                <h4 class="email-subject">Hello from Toronto</h4>
+                <h5 class="email-name"> {{{ name }}} {{{ time }}}</h5>
+                <h4 class="email-subject"> {{{ subject}}}</h4>
                 <p class="email-desc">
-                    Hey, I just wanted to check in with you from Toronto. I got here earlier today.
+                    {{{ desc }}}
                 </p>
             </div>
-            {{/each}}
+            {{/posts}}
         </div>
     </div>
 
     <div id="main" class="pure-u-1">
       <div class="email-content">
-
+                  {{#posts}}
             <div class="email-content-header pure-g">
-
                 <div class="pure-u-1-2">
-                    <h1 class="email-content-title">Hello from Toronto</h1>
+                    <h1 class="email-content-title">{{{ subject }}}</h1>
                     <p class="email-content-subtitle">
-                        From <a>Tilo Mitra</a> at <span>3:56pm, April 3, 2012</span>
+                        From <a>{{{ name}}}</a> at <span>{{{ time }}}</span>
                     </p>
                 </div>
 
@@ -75,6 +73,14 @@
             </div>
 
 
+
+
+          <div class="email-content-body">
+          {{{ body }}}
+
+          </div>
+            {{/posts}}
+
           <div class="email-content-body">
           {{{ body }}}
 
@@ -82,6 +88,7 @@
 
       </div>
     </div>
+
   </div>
 
 <!--   <div id="footer">

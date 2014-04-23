@@ -12,7 +12,6 @@ var tempdb = require('./data/posts.js');
 // console.log(tempdb.posts[0].name);
 
 
-
 hbs = xhbs.create();
 app.use("/public", express.static('public'));
 hbs.defaultLayout = "layout";
@@ -41,7 +40,6 @@ function checkLoggedIn(req, res, next) { //next is a function that allows us to 
 app.use( checkLoggedIn );
 
 
-//
 app.get('/set_session', function(req, res) {
   req.session.username = req.query.username;
   res.send("Session was set");
@@ -52,9 +50,33 @@ app.get('/see_session', function(req, res) {
 });
 
 app.get('/', function(req, res){
-  var data = {};
+  var data = { posts: [ {
+    name: "Tito Mitra",
+    subj: "Hello from Toronto",
+    time: new Date(),
+    desc: "Hey, I just wanted to check in with you from Toronto. I got here earlier today.",
+    imageSmall: "'/img/common/tilo-avatar.png'",
+    body: "Hey, I just wanted to check in with you from Toronto. I got here earlier today. The bagels are fresh and the coffee is stale."
+  },
+  {
+    name: "Jack",
+    subj: "hey what's up?",
+    time: new Date(),
+    desc: "I wanna know how to do this thing. Do you know how to do it?",
+    imageSmall: "'/img/tilo-avatar.png'",
+    body: "I wanna know how to do this thing. Do you know how to do it? It involved NODE JS and a Handlebar Mustache and a Cadillac and an Oldsmobile."
+  },
+  {
+    name: "Jill",
+    subj: "Is anybody reading this?",
+    time: new Date(),
+    desc: "I was wondering what is my view count and what type of layout to use?",
+    imageSmall: "'/img/tilo-avatar.png'",
+    body: "I was wondering what is my view count and what type of layout to use? And how many posts to make in the automatic post generator machine."
+  }]
+  }
   data.loggedInUsername = req.session.username;
-  res.render('index');
+  res.render('index', data);
 });
 
 app.get('/login', function(req, res){
