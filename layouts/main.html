@@ -20,12 +20,18 @@
             <input type="text" name='search' placeholder='search'>
             <button type='submit' style="position: absolute; left: -9999px; width: 1px; height: 1px;" class="pure-button pure-button-primary">Submit</button>
           </form>
+        {{#if loggedIn}}
+        <div class="pure-menu pure-menu-open">Logged in as {{{ u }}}</div>
+        {{else}}
+        <div class="pure-menu pure-menu-open"><a href="/login">Please log in.</a></div>
+        {{/if}}
 
-            <button class="primary-button pure-button">New Post</button>
-
+            <form action="newpost">
+            <button class="primary-button pure-button" type="submit" >New Post</button>
+            </form>
             <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading" href="/">Title</a>
-
+<!--             <a class="pure-menu-heading" href="/">Title</a>
+ -->
             <ul>
                 <li><a href="#">All Posts <span class="email-count">{{{posts.length}}}</span></a></li>
                 <li class="pure-menu-heading">Labels</li>
@@ -37,54 +43,7 @@
         </div>
     </div>
 
-    <div id="list" class="pure-u-1">
-        <div class="email-item email-item-selected pure-g">
-            {{#posts}}
-            <div class="pure-u">
-                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ imageSmall }} >
-            </div>
-            <div class="pure-u-3-4">
-                <h5 class="email-name"> {{{ name }}} {{{ time }}}</h5>
-                <h4 class="email-subject"> {{{ subject}}}</h4>
-                <p class="email-desc">
-                    {{{ desc }}}
-                </p>
-            </div>
-            {{/posts}}
-        </div>
-    </div>
-
-    <div id="main" class="pure-u-1">
-      <div class="email-content">
-                  {{#posts}}
-            <div class="email-content-header pure-g">
-                <div class="pure-u-1-2">
-                    <h1 class="email-content-title">{{{ subject }}}</h1>
-                    <p class="email-content-subtitle">
-                        From <a>{{{ name}}}</a> at <span>{{{ time }}}</span>
-                    </p>
-                </div>
-
-                <div class="email-content-controls pure-u-1-2">
-                    <button class="secondary-button pure-button">Reply</button>
-                    <button class="secondary-button pure-button">Forward</button>
-                    <button class="secondary-button pure-button">Move to</button>
-                </div>
-            </div>
-
-
-
-
-          <div class="email-content-body">
-          {{{ body }}}
-
-          </div>
-            {{/posts}}
-
-          <div class="email-content-body">
-          {{{ body }}}
-
-          </div>
+        {{{ body }}}
 
       </div>
     </div>

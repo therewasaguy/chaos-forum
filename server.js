@@ -12,45 +12,7 @@ var tempdb = require('./data/posts.js');
 // console.log(tempdb.posts[0].name);
 
 
-hbs = xhbs.create();
-app.use("/public", express.static('public'));
-hbs.defaultLayout = "layout";
-
-console.log(hbs.defaultLayout);
-
-app.engine('html', hbs.__express);
-app.set('view engine', 'html');
-app.set('view options', { layout: '../layouts/main'}); //set the default layout
-
-
-app.use( bodyParser() );
-app.use( cookieParser() ); //has to come before the session
-app.use( expressSession( {secret: 'kljkasl'}) ); //secret has to be some string
-
-
-function checkLoggedIn(req, res, next) { //next is a function that allows us to do something to req/res then move on to the next piece of middleware.
-  console.log('hello checkin it OUT !');
-  if (req.session.username) {
-    res.locals.loggedInUsername = req.session.username;
-    console.log('logged in as '+ req.session.username);
-  }
-  next();
-}
-
-app.use( checkLoggedIn );
-
-
-app.get('/set_session', function(req, res) {
-  req.session.username = req.query.username;
-  res.send("Session was set");
-});
-
-app.get('/see_session', function(req, res) {
-  res.send("session.username: " + req.session.username);
-});
-
-app.get('/', function(req, res){
-  var data = { posts: [ {
+var data = { posts: [ {
     name: "Tito Mitra",
     subj: "Hello from Toronto",
     time: new Date(),
@@ -74,7 +36,48 @@ app.get('/', function(req, res){
     imageSmall: "'/img/tilo-avatar.png'",
     body: "I was wondering what is my view count and what type of layout to use? And how many posts to make in the automatic post generator machine."
   }]
+};
+
+hbs = xhbs.create();
+app.use("/public", express.static('public'));
+hbs.defaultLayout = "layout";
+
+console.log(hbs.defaultLayout);
+
+app.engine('html', hbs.__express);
+app.set('view engine', 'html');
+app.set('view options', { layout: '../layouts/main'}); //set the default layout
+
+
+app.use( bodyParser() );
+app.use( cookieParser() ); //has to come before the session
+app.use( expressSession( {secret: 'kljkasl'}) ); //secret has to be some string
+
+
+function checkLoggedIn(req, res, next) { //next is a function that allows us to do something to req/res then move on to the next piece of middleware.
+  console.log('hello checkin it OUT !');
+  if (req.session.username) {
+    res.locals.loggedInUsername = req.session.username;
+    // console.log('logged in as '+ req.session.username);
+    data.username = req.session.username;
+    console.log("username is: " + data.username);
   }
+  next();
+}
+
+app.use( checkLoggedIn );
+
+
+app.get('/set_session', function(req, res) {
+  req.session.username = req.query.username;
+  res.send("Session was set");
+});
+
+app.get('/see_session', function(req, res) {
+  res.send("session.username: " + req.session.username);
+});
+
+app.get('/', function(req, res){
   data.loggedInUsername = req.session.username;
   res.render('index', data);
 });
@@ -100,11 +103,18 @@ app.post('/login', function(req, res){
 app.get('/signup', function(req, res){
   if ( passwordIsValid(username, password)) {
     req.session.username = username;
-    req.render('index', {loggedIn: true, u: username});
+    data.loggedIn = true;
+    data.u = username;
+    req.render('index', data);
   } else {
     res.render('signup', {failedLogin: true});
   }
 
+});
+
+app.get('/newpost', function(req, res){
+//check if logged in
+  res.render('newpost', data);
 });
 
 app.post('/signup', function(req, res){
@@ -116,9 +126,40 @@ app.post('/signup', function(req, res){
 
   if ( validSignup(username, password, email)) {
     req.session.username = username;
-    res.render('index', {loggedIn: true, u: username});
+    res.render('index', {loggedIn: true, u: username, posts: data.posts});
   } else {
-    res.render('signup', {failedLogin: true});
+    res.render('signup', {failedLogin: true, posts: data.posts});
+  }
+});
+
+app.post('/index', function(req, res){
+  console.log('body params: ', req.body);
+
+  var username = req.body['username'];
+  var email = req.body['email'];
+  var password = req.body['password'];
+  var postSubject = req.body['pSubject'];
+  var postBody = req.body['pBody'];
+
+  if ( validSignup(username, password, email)) {
+    req.session.username = username;
+    data.loggedIn = true;
+    data.u = username;
+  //add new post 
+    if (postSubject) {
+      data.posts.push( {
+        name: req.session.username,
+        subj: postSubject,
+        time: new Date(),
+        desc: postSubject,
+        imageSmall: "'/img/common/tilo-avatar.png'",
+        body: postBody
+      })
+    }
+    res.render('index', data);
+
+  } else {
+    res.render('signup', {failedLogin: true, posts: data.posts});
   }
 });
 
@@ -136,8 +177,5 @@ function passwordIsValid(user, pass) {
   // }
 }
 
-//app.get(*) --> catchall
-
 app.listen(8000,function() {console.log('listening!')});
-
 

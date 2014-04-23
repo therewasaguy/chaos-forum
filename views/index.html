@@ -1,12 +1,58 @@
-<h1>Welcome!</h1>
+    <div id="list" class="pure-u-1">
+        <div class="email-item email-item-selected pure-g">
+            {{#posts}}
+            <div class="pure-u">
+                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ imageSmall }} >
+            </div>
+            <div class="pure-u-3-4">
+                <h5 class="email-name"> {{{ name }}} {{{ time }}}</h5>
+                <h4 class="email-subject"> {{{ subject}}}</h4>
+                <p class="email-desc">
+                    {{{ desc }}}
+                </p>
+            </div>
+            {{/posts}}
+        </div>
+    </div>
 
-<p>
-{{#if loggedIn}}
-You Successfully logged in as {{{ u }}}
-{{/if}}
+    <div id="main" class="pure-u-1">
+      <div class="email-content">
+                  {{#posts}}
+            <div class="email-content-header pure-g">
+                <div class="pure-u-1-2">
+                    <h1 class="email-content-title">{{{ subject }}}</h1>
+                    <p class="email-content-subtitle">
+                        From <a>{{{ name}}}</a> at <span>{{{ time }}}</span>
+                    </p>
+                </div>
 
-{{#if failedLogIn}}
-Sorry that is wrong
-{{/if}}
-</p>
+                <div class="email-content-controls pure-u-1-2">
+                    <button class="secondary-button pure-button">Reply</button>
+                    <button class="secondary-button pure-button">Forward</button>
+                    <button class="secondary-button pure-button">Move to</button>
+                </div>
+            </div>
 
+
+
+
+          <div class="email-content-body">
+          {{{ body }}}
+
+          </div>
+            {{/posts}}
+
+<div class="email-content-body">
+  <h1>Welcome!</h1>
+
+  <p>
+  {{#if failedLogIn}}
+  Sorry that is wrong
+  {{/if}}
+  {{#if loggedIn}}
+  You Successfully logged in as {{{ u }}}
+  {{else}}
+  Please <a href="/login">log in</a>.
+  {{/if}}
+  </p>
+</div>

@@ -131,6 +131,10 @@ a {
 }
 
 
+.newpost {
+    width: 500px;
+    overflow:scroll;
+}
 /* Email Item Styles */
 .email-item {
     padding: 0.9em 1em;
