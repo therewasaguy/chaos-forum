@@ -1,0 +1,32 @@
+This is the login page.        Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo Helllooooooooooooo
+
+<p>
+{{#if loggedIn}}
+You Successfully logged in.
+{{/if}}
+
+{{#if failedLogIn}}
+Sorry that is wrong
+{{/if}}
+</p>
+
+<h1>Log In</h1>
+<form action="/login" method="post" class="pure-form">
+ <fieldset>
+<input type='text' name='username' placeholder='enter your username'><br/>
+<input type='text' name='password' placeholder='enter your password'><br/>
+
+<button type='submit' class="pure-button pure-button-primary">Submit</button>
+</fieldset>
+</form>
+
+<h2>Sign Up</h2>
+<form action="/signup" method="post" class="pure-form">
+ <fieldset>
+<input type='text' name='username' placeholder='enter your username'><br/>
+<input type='text' name='email' placeholder='enter your email'><br/>
+<input type='text' name='password' placeholder='enter your password'><br/>
+
+<button type='submit' class="pure-button pure-button-primary">Submit</button>
+</fieldset>
+</form>

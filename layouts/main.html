@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--CSS http://purecss.io/layouts/ -->
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" href="../public/css/layouts/email.css">
+    <title>{{title}}</title>
+  </head>
+
+  <body>
+
+
+<div id="layout" class="content pure-g">
+    <div id="nav" class="pure-u">
+        <a href="#" class="nav-menu-button">Menu</a>
+
+        <div class="nav-inner">
+
+          <form action="/search" method="post" class="pure-form">
+            <input type="text" name='search' placeholder='search'>
+            <button type='submit' style="position: absolute; left: -9999px; width: 1px; height: 1px;" class="pure-button pure-button-primary">Submit</button>
+          </form>
+
+            <button class="primary-button pure-button">New Post</button>
+
+            <div class="pure-menu pure-menu-open">
+            <a class="pure-menu-heading" href="/">Title</a>
+
+            <ul>
+                <li><a href="#">All Posts <span class="email-count">(2)</span></a></li>
+                <li class="pure-menu-heading">Labels</li>
+                <li><a href="#"><span class="email-label-work"></span>Unresolved</a></li>
+                <li><a href="#"><span class="email-label-personal"></span>Open</a></li>
+                <li><a href="#"><span class="email-label-travel"></span>Resolved</a></li>
+            </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="list" class="pure-u-1">
+        <div class="email-item email-item-selected pure-g">
+            <div class="pure-u">
+                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src="img/common/tilo-avatar.png">
+            </div>
+
+            {{#each post}}
+            <div class="pure-u-3-4">
+                <h5 class="email-name"> {{{ email }}} a</h5>
+                <h4 class="email-subject">Hello from Toronto</h4>
+                <p class="email-desc">
+                    Hey, I just wanted to check in with you from Toronto. I got here earlier today.
+                </p>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div id="main" class="pure-u-1">
+      <div class="email-content">
+
+            <div class="email-content-header pure-g">
+
+                <div class="pure-u-1-2">
+                    <h1 class="email-content-title">Hello from Toronto</h1>
+                    <p class="email-content-subtitle">
+                        From <a>Tilo Mitra</a> at <span>3:56pm, April 3, 2012</span>
+                    </p>
+                </div>
+
+                <div class="email-content-controls pure-u-1-2">
+                    <button class="secondary-button pure-button">Reply</button>
+                    <button class="secondary-button pure-button">Forward</button>
+                    <button class="secondary-button pure-button">Move to</button>
+                </div>
+            </div>
+
+
+          <div class="email-content-body">
+          {{{ body }}}
+
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+<!--   <div id="footer">
+    <a href="/">Home</a> <a href="/about">About</a>
+  </div>
+ -->
+  </body>
+</html>
