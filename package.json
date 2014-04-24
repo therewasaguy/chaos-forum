@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "express": "4",
-    "express3-handlebars": "*",
     "body-parser": "*",
     "cookie-parser": "~1.0.1",
     "express-session": "~1.0.2",

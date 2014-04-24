@@ -17,7 +17,7 @@ var data = { posts: [ {
     subj: "Hello from Toronto",
     time: new Date(),
     desc: "Hey, I just wanted to check in with you from Toronto. I got here earlier today.",
-    imageSmall: "'/img/common/tilo-avatar.png'",
+    imageSmall: "public/img/common/tilo-avatar.png",
     body: "Hey, I just wanted to check in with you from Toronto. I got here earlier today. The bagels are fresh and the coffee is stale."
   },
   {
@@ -25,7 +25,7 @@ var data = { posts: [ {
     subj: "hey what's up?",
     time: new Date(),
     desc: "I wanna know how to do this thing. Do you know how to do it?",
-    imageSmall: "'/img/tilo-avatar.png'",
+    imageSmall: "public/img/common/tilo-avatar.png",
     body: "I wanna know how to do this thing. Do you know how to do it? It involved NODE JS and a Handlebar Mustache and a Cadillac and an Oldsmobile."
   },
   {
@@ -33,7 +33,7 @@ var data = { posts: [ {
     subj: "Is anybody reading this?",
     time: new Date(),
     desc: "I was wondering what is my view count and what type of layout to use?",
-    imageSmall: "'/img/tilo-avatar.png'",
+    imageSmall: "public/img/common/tilo-avatar.png",
     body: "I was wondering what is my view count and what type of layout to use? And how many posts to make in the automatic post generator machine."
   }]
 };
@@ -152,7 +152,7 @@ app.post('/index', function(req, res){
         subj: postSubject,
         time: new Date(),
         desc: postSubject,
-        imageSmall: "'/img/common/tilo-avatar.png'",
+        imageSmall: "/img/common/tilo-avatar.png",
         body: postBody
       })
     }
