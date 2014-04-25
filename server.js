@@ -1,57 +1,42 @@
 var express = require('express');
-
 var app = express();
+
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
+
 var bodyParser = require('body-parser')
 var xhbs = require('hbs');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
-var mongodb = require('mongodb');
-// var uri = 'ds053688.mongolab.com:53688/users';
 
-var tempdb = require('./data/posts.js');
-// console.log(tempdb.posts[0].name);
+var logger = require('morgan');
+var configDB = require('./config/database.js');
 
-
-var data = { posts: [ {
-    name: "Tito Mitra",
-    subj: "Hello from Toronto",
-    time: new Date(),
-    desc: "Hey, I just wanted to check in with you from Toronto. I got here earlier today.",
-    imageSmall: "public/img/common/tilo-avatar.png",
-    body: "Hey, I just wanted to check in with you from Toronto. I got here earlier today. The bagels are fresh and the coffee is stale."
-  },
-  {
-    name: "Jack",
-    subj: "hey what's up?",
-    time: new Date(),
-    desc: "I wanna know how to do this thing. Do you know how to do it?",
-    imageSmall: "public/img/common/tilo-avatar.png",
-    body: "I wanna know how to do this thing. Do you know how to do it? It involved NODE JS and a Handlebar Mustache and a Cadillac and an Oldsmobile."
-  },
-  {
-    name: "Jill",
-    subj: "Is anybody reading this?",
-    time: new Date(),
-    desc: "I was wondering what is my view count and what type of layout to use?",
-    imageSmall: "public/img/common/tilo-avatar.png",
-    body: "I was wondering what is my view count and what type of layout to use? And how many posts to make in the automatic post generator machine."
-  }]
-};
+//configuration =======
+mongoose.connect(configDB.url); //connect to the DB from database.js file
 
 hbs = xhbs.create();
 app.use("/public", express.static('public'));
 hbs.defaultLayout = "layout";
 
-console.log(hbs.defaultLayout);
-
 app.engine('html', hbs.__express);
 app.set('view engine', 'html');
 app.set('view options', { layout: '../layouts/main'}); //set the default layout
 
-
+logger({ format: 'dev', immediate: true });
+app.use( logger() ); // log every request to the console
 app.use( bodyParser() );
 app.use( cookieParser() ); //has to come before the session
 app.use( expressSession( {secret: 'kljkasl'}) ); //secret has to be some string
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+data = configDB.getData(); //this loads the placeholder data
+
+// routes ======================================================================
+// require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 
 function checkLoggedIn(req, res, next) { //next is a function that allows us to do something to req/res then move on to the next piece of middleware.
@@ -177,7 +162,6 @@ function passwordIsValid(user, pass) {
   // }
 }
 
-var port = (process.env.PORT || 8000);
-
-app.listen(port,function() {console.log('listening!')});
+var port = (process.env.PORT || 8080);
+app.listen(port,function() {console.log('listening on port ' + port)});
 
