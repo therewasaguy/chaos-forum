@@ -1,5 +1,17 @@
 <div class="email-content-body">
+
+
+{{#greaterThan message.length 0}}
+    <div class="alert alert-danger">hello</div>
+{{/greaterThan}}
+<!--message.length > 0-->
+  <!-- show any messages that come back with authentication -->
+<!--    #if loggedIn 
+    <div class="alert alert-danger">hello</div>
+  /if -->
+
 <p>
+
 {{#if loggedIn}}
 You Successfully logged in.
 {{/if}}
@@ -10,9 +22,9 @@ Sorry that is wrong
 </p>
 
 <h1 class="email-content-title">Log In</h1>
-<form action="/index" method="post" class="pure-form">
+<form action="/login" method="post" class="pure-form">
  <fieldset>
-<input type='text' name='username' placeholder='enter your username'><br/>
+<input type='text' name='email' placeholder='enter your email'><br/>
 <input type='text' name='password' placeholder='enter your password'><br/>
 
 <button type='submit' class="pure-button pure-button-primary">Submit</button>
@@ -20,9 +32,8 @@ Sorry that is wrong
 </form>
 
 <h1 class="email-content-title">Sign Up</h1>
-<form action="/index" method="post" class="pure-form">
+<form action="/signup" method="post" class="pure-form">
  <fieldset>
-<input type='text' name='username' placeholder='enter your username'><br/>
 <input type='text' name='email' placeholder='enter your email'><br/>
 <input type='text' name='password' placeholder='enter your password'><br/>
 

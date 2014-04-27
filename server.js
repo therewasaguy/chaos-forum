@@ -13,6 +13,7 @@ var expressSession = require('express-session');
 var logger = require('morgan');
 var configDB = require('./config/database.js');
 
+
 //configuration =======
 mongoose.connect(configDB.url); //connect to the DB from database.js file
 
@@ -36,8 +37,9 @@ app.use(flash());
 data = configDB.getData(); //this loads the placeholder data
 
 // routes ======================================================================
-// require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
+require('./config/passport')(passport); // pass passport for configuration
 
 function checkLoggedIn(req, res, next) { //next is a function that allows us to do something to req/res then move on to the next piece of middleware.
   console.log('hello checkin it OUT !');
@@ -53,100 +55,90 @@ function checkLoggedIn(req, res, next) { //next is a function that allows us to 
 app.use( checkLoggedIn );
 
 
-app.get('/set_session', function(req, res) {
-  req.session.username = req.query.username;
-  res.send("Session was set");
-});
+/////////////////////////////////////////////
+//might delete this stuffs:
+          app.get('/set_session', function(req, res) {
+            req.session.username = req.query.username;
+            res.send("Session was set");
+          });
 
-app.get('/see_session', function(req, res) {
-  res.send("session.username: " + req.session.username);
-});
+          app.get('/see_session', function(req, res) {
+            res.send("session.username: " + req.session.username);
+          });
+/////////////////////
 
-app.get('/', function(req, res){
-  data.loggedInUsername = req.session.username;
-  res.render('index', data);
-});
+          // app.post('/login', function(req, res){
+          //   console.log('body params: ', req.body);
 
-app.get('/login', function(req, res){
-  res.render('login');
-});
+          //   var username = req.body['username'];
+          //   var password = req.body['password'];
 
-app.post('/login', function(req, res){
-  console.log('body params: ', req.body);
+          //   if ( passwordIsValid(username, password)) {
+          //     req.session.username = username;
+          //     res.render('index', {loggedIn: true, u: username});
+          //   } else {
+          //     res.render('login', {failedLogin: true});
+          //   }
+          // });
 
-  var username = req.body['username'];
-  var password = req.body['password'];
+          app.get('/signup', function(req, res){
+            if ( passwordIsValid(username, password)) {
+              req.session.username = username;
+              data.loggedIn = true;
+              data.u = username;
+              req.render('index', data);
+            } else {
+              res.render('signup', {failedLogin: true});
+            }
 
-  if ( passwordIsValid(username, password)) {
-    req.session.username = username;
-    res.render('index', {loggedIn: true, u: username});
-  } else {
-    res.render('login', {failedLogin: true});
-  }
-});
+          });
 
-app.get('/signup', function(req, res){
-  if ( passwordIsValid(username, password)) {
-    req.session.username = username;
-    data.loggedIn = true;
-    data.u = username;
-    req.render('index', data);
-  } else {
-    res.render('signup', {failedLogin: true});
-  }
+          // app.post('/signup', function(req, res){
+          //   console.log('body params: ', req.body);
 
-});
+          //   var username = req.body['username'];
+          //   var email = req.body['email'];
+          //   var password = req.body['password'];
 
-app.get('/newpost', function(req, res){
-//check if logged in
-  res.render('newpost', data);
-});
+          //   if ( validSignup(username, password, email)) {
+          //     req.session.username = username;
+          //     res.render('index', {loggedIn: true, u: username, posts: data.posts});
+          //   } else {
+          //     res.render('signup', {failedLogin: true, posts: data.posts});
+          //   }
+          // });
 
-app.post('/signup', function(req, res){
-  console.log('body params: ', req.body);
+          app.post('/index', function(req, res){
+            console.log('body params: ', req.body);
 
-  var username = req.body['username'];
-  var email = req.body['email'];
-  var password = req.body['password'];
+            var username = req.body['username'];
+            var email = req.body['email'];
+            var password = req.body['password'];
+            var postSubject = req.body['pSubject'];
+            var postBody = req.body['pBody'];
 
-  if ( validSignup(username, password, email)) {
-    req.session.username = username;
-    res.render('index', {loggedIn: true, u: username, posts: data.posts});
-  } else {
-    res.render('signup', {failedLogin: true, posts: data.posts});
-  }
-});
+            if ( validSignup(username, password, email)) {
+              req.session.username = username;
+              data.loggedIn = true;
+              data.u = username;
+            //add new post 
+              if (postSubject) {
+                data.posts.push( {
+                  name: req.session.username,
+                  subj: postSubject,
+                  time: new Date(),
+                  desc: postSubject,
+                  imageSmall: "/img/common/tilo-avatar.png",
+                  body: postBody
+                })
+              }
+              res.render('index', data);
 
-app.post('/index', function(req, res){
-  console.log('body params: ', req.body);
-
-  var username = req.body['username'];
-  var email = req.body['email'];
-  var password = req.body['password'];
-  var postSubject = req.body['pSubject'];
-  var postBody = req.body['pBody'];
-
-  if ( validSignup(username, password, email)) {
-    req.session.username = username;
-    data.loggedIn = true;
-    data.u = username;
-  //add new post 
-    if (postSubject) {
-      data.posts.push( {
-        name: req.session.username,
-        subj: postSubject,
-        time: new Date(),
-        desc: postSubject,
-        imageSmall: "/img/common/tilo-avatar.png",
-        body: postBody
-      })
-    }
-    res.render('index', data);
-
-  } else {
-    res.render('signup', {failedLogin: true, posts: data.posts});
-  }
-});
+            } else {
+              res.render('signup', {failedLogin: true, posts: data.posts});
+            }
+          });
+/////////////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>might delete
 
 function validSignup(u, p, e) {
   //will add validator to ensure that u p and e are new / valid
@@ -161,6 +153,16 @@ function passwordIsValid(user, pass) {
   //   return false;
   // }
 }
+
+// ==================================
+// Handlebars Helpers
+// =====================
+hbs.registerHelper('greaterThan', function(v1, v2) {
+  if(v1 > v2) {
+    return true;
+  }
+  return false;
+});
 
 var port = (process.env.PORT || 8080);
 app.listen(port,function() {console.log('listening on port ' + port)});
