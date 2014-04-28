@@ -37,6 +37,7 @@ module.exports = function(passport) {
   function(req, email, password, done) {
 
     // async so that User.findOne wont fire unless data is sent back
+    // process.next tick defers the execution of an action till the next pass around the event loop
     process.nextTick(function() {
 
       // find a user whose email is the same as the forms email, if the user exists
@@ -67,6 +68,34 @@ module.exports = function(passport) {
 
       });
 
+    });
+
+  }));
+
+  // ==================
+  // LOCAL LOGIN
+  // ==================
+
+  passport.use('local-login', new LocalStrategy({
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+  function(req, email, password, done) { // callback with email and pw
+
+    // find a user whose email is the same as the form's
+    User.findOne({ 'local.email' : email }, function(err, user) {
+      if (err)
+        return done(err)
+
+      if (!user)
+        return done(null, false, req.flash('loginMessage', 'No user found.'));
+
+      if (!user.validPassword(password))
+        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password'));
+
+      //otherwise, let em in!
+      return done(null, user);
     });
 
   }));

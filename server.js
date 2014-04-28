@@ -29,7 +29,7 @@ logger({ format: 'dev', immediate: true });
 app.use( logger() ); // log every request to the console
 app.use( bodyParser() );
 app.use( cookieParser() ); //has to come before the session
-app.use( expressSession( {secret: 'kljkasl'}) ); //secret has to be some string
+app.use( expressSession( {secret: 'kljkasl'}) ); 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
