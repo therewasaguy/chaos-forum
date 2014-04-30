@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
   // ============================
 
   app.use(getBlogCount);
+  app.use(getAllPosts);
 
   app.get('/home', function(req, res) {
     res.render('index');
@@ -21,10 +22,23 @@ module.exports = function(app, passport) {
     }); 
   }
 
-  app.get('/postCount', function(req, res){
-    res.send("Blog count:"+res.locals.blogCount);
-  });
+  function getAllPosts(req, res, next){
+    Blog.find(function (err, allPosts) {
+      if (err) return console.error(err);
+      res.locals.blogs = allPosts;
+      console.log(res.locals.blogs);
+      next();
+    });
+  }
 
+  app.get('/allPosts', function(req, res) {
+    Blog.find(function (err, allPosts) {
+      if (err) return console.error(err);
+      res.locals.blogs = allPosts;
+      console.log(res.locals.blogs);
+      res.send("Blogs: " + res.locals.blogs);
+      });
+  });
 
 
   app.get('/', function(req, res){
@@ -124,7 +138,7 @@ module.exports = function(app, passport) {
   app.post('/newpost', function(req, res){
     // create the post
     var newBlog = new Blog();
-    newBlog.username = req.session.username;
+    newBlog.username = req.body['username'];
     newBlog.subject = req.body['pSubject'];
     newBlog.time = new Date();
     newBlog.body = req.body['pBody'];

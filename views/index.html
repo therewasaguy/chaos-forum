@@ -1,23 +1,23 @@
     <div id="list" class="pure-u-1">
         <div class="email-item email-item-selected pure-g">
-            {{#posts}}
+            {{#blogs}}
             <div class="pure-u">
-                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ imageSmall }} >
+                <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ image }} >
             </div>
             <div class="pure-u-3-4">
                 <h5 class="email-name"> {{{ username }}} {{{ time }}}</h5>
                 <h4 class="email-subject"> {{{ subject}}}</h4>
                 <p class="email-desc">
-                    {{{ desc }}}
+                    {{{ body }}}
                 </p>
             </div>
-            {{/posts}}
+            {{/blogs}}
         </div>
     </div>
 
     <div id="main" class="pure-u-1">
       <div class="email-content">
-                  {{#posts}}
+                  {{#blogs}}
             <div class="email-content-header pure-g">
                 <div class="pure-u-1-2">
                     <h1 class="email-content-title">{{{ subject }}}</h1>
@@ -25,20 +25,15 @@
                         From <a>{{{ username}}}</a> at <span>{{{ time }}}</span>
                     </p>
                 </div>
-
                 <div class="email-content-controls pure-u-1-2">
                     <button class="secondary-button pure-button">Edit</button>
                 </div>
             </div>
-
-
-
-
           <div class="email-content-body">
           {{{ body }}}
 
           </div>
-            {{/posts}}
+            {{/blogs}}
 
 <div class="email-content-body">
   <h1>Welcome!</h1>

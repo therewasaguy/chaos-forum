@@ -6,6 +6,7 @@
      <fieldset class="newpost">
     <input type='text' name='pSubject' placeholder='subject'><br/>
     <input type='text' name='pBody' class="newpost" placeholder='body' size="30000"><br/>
+    <input type='hidden' name='username' value={{{user.local.email}}}>
 
     <button type='submit' class="pure-button pure-button-primary">Submit</button>
     </fieldset>

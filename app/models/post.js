@@ -10,6 +10,8 @@ var mongoose = require('mongoose');
 //       imageSmall: "public/img/common/tilo-avatar.png",
 //       body:
 
+// Sub Docs
+
 var postSchema = mongoose.Schema({
 
     username    : String,

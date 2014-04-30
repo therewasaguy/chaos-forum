@@ -22,12 +22,6 @@ function updateUsers() {
 }
 updateUsers();
 
-// blogs ==================================
-var Blog = require('../app/models/post');
-
-  // Blog.updateBlogs();
-  console.log(" THIS IS A BLOGGGGG: " + Blog);
-
 
 // expose this function to the app using module.exports
 module.exports = function(passport) {
