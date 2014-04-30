@@ -6,6 +6,26 @@ var LocalStrategy = require('passport-local').Strategy;
 // load up the user model
 var User = require('../app/models/user');
 
+
+// populate the userNames and userCount
+function updateUsers() {
+  User.find(function (err, allusers) {
+    if (err) return console.error(err);
+    data.users = allusers;
+    console.log(allusers);
+  });
+  //query database to get the user count, which is asynchronous, set it on callback
+  User.count({}, function( err, count){
+      console.log( "Number of users:", count );
+      data.userCount = count;
+  })
+}
+updateUsers();
+
+
+
+
+
 // expose this function to the app using module.exports
 module.exports = function(passport) {
 
@@ -60,9 +80,13 @@ module.exports = function(passport) {
 
           // save the user
           newUser.save(function(err) {
-            if (err)
+            if (err) {
               throw err;
-            return done(null, newUser);
+            }
+            else {
+              updateUsers();  //update user count
+              return done(null, newUser);
+            }
           });
         }
 

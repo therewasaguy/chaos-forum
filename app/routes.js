@@ -20,17 +20,25 @@ module.exports = function(app, passport) {
     res.render('index', dataToSend);
   });
 
+  app.get('/users', function(req, res) {
+//    data.users = [{name:'jason'}, {name:'jimmy'}, {name:'john'}, {name:'yo'}];
+    res.render('users', data);
+  });
 
   app.get('/login', function(req, res) {
 
     // render the page and pass in any flash data if it exists
-    res.render('login', {message: req.flash('loginMessage')}); 
+    var dataToSend = data;
+    dataToSend.message = req.flash('loginMessage');
+    res.render('login', data); 
   });
 
   app.get('/new_account_duplicate', function(req, res) {
+    var dataToSend = data;
+    dataToSend.message = req.flash('signupMessage');
 
     // render the page and pass in any flash data if it exists
-    res.render('login', {message: req.flash('signupMessage')}); 
+    res.render('login', dataToSend); 
   });
 
   // process the login form
@@ -41,9 +49,11 @@ module.exports = function(app, passport) {
   // =====================================
   // show the signup form
   app.get('/signup', function(req, res) {
+    var dataToSend = data;
+    dataToSend.message = req.flash('signupMessage');
 
     // render the page and pass in any flash data if it exists
-    res.render('login', { message: req.flash('signupMessage') });
+    res.render('login', dataToSend);
   });
 
 
