@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
   });
 
 
-  app.get('/newpost', function(req, res){
+  app.get('/newpost', isLoggedIn, function(req, res){
   //check if logged in
     res.render('newpost', data);
   });
@@ -60,9 +60,8 @@ module.exports = function(app, passport) {
   // we will use route middleware to verify this (the isLoggedIn function)
   app.get('/profile', isLoggedIn, function(req, res) {
     console.log("user profile page!");
-    res.render('profile', {
-      user : req.user // get the user out of session and pass to template
-    });
+    data.user = req.user;
+    res.render('profile', data);
   });
 
   // =====================================
@@ -70,6 +69,7 @@ module.exports = function(app, passport) {
   // =====================================
   app.get('/logout', function(req, res) {
     req.logout();
+    data.user = null;
     res.redirect('/');
   });
 };

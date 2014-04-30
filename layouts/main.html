@@ -20,8 +20,9 @@
             <input type="text" name='search' placeholder='search'>
             <button type='submit' style="position: absolute; left: -9999px; width: 1px; height: 1px;" class="pure-button pure-button-primary">Submit</button>
           </form>
-        {{#if loggedIn}}
-        <div class="pure-menu pure-menu-open">Logged in as {{{ u }}}</div>
+        {{#if user.local.email}}
+        <div class="pure-menu pure-menu-open"><a href="/profile">Hi, {{{ user.local.email }}}!</a></div>
+        <div class="pure-menu pure-menu-open"><a href="/logout">Log Out?</a></div>        
         {{else}}
         <div class="pure-menu pure-menu-open"><a href="/login">Please log in.</a></div>
         {{/if}}
@@ -33,7 +34,8 @@
 <!--             <a class="pure-menu-heading" href="/">Title</a>
  -->
             <ul>
-                <li><a href="#">All Posts <span class="email-count">{{{posts.length}}}</span></a></li>
+                <li><a href="/">All Posts <span class="email-count">{{{posts.length}}}</span></a></li>
+                <li><a href="/">All Users <span class="email-count">{{{User.length}}}</span></a></li>
                 <li class="pure-menu-heading">Labels</li>
                 <li><a href="#"><span class="email-label-work"></span>Unresolved</a></li>
                 <li><a href="#"><span class="email-label-personal"></span>Open</a></li>

@@ -1,11 +1,16 @@
+
+<div id="main" class="pure-u-1">
+  {{#greaterThan message 0}}
+  <div class="alert alert-danger">
+      Warning: {{{message}}}
+  </div>
+  
+  {{/greaterThan}}
+
+
 <div class="email-content-body">
 
 
-{{#greaterThan message.length 0}}
-    <div class="alert alert-danger"></div>
-    Here is a message: {{{message}}}
-    console.log({{{message}}});
-{{/greaterThan}}
 
 <p>
 
@@ -38,4 +43,5 @@ Sorry that is wrong
 </fieldset>
 </form>
 
-</div>
+  </div>
+</div> <!-- end main-->

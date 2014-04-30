@@ -14,7 +14,11 @@ var postSchema = mongoose.Schema({
   time        : Date,
   desc        : String,
   imageSmall  : String,
-  body        : String
+  body        : String,
+  user        : {
+
+  },
+  peviousPosts  : Array,
 }
 
 
