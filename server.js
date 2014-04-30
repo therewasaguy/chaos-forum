@@ -42,7 +42,6 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 require('./config/passport')(passport); // pass passport for configuration
 
 
-
 // /////////////////////////////////////////////
 
           // app.post('/index', function(req, res){
@@ -75,6 +74,7 @@ require('./config/passport')(passport); // pass passport for configuration
           //     res.render('signup', {failedLogin: true, posts: data.posts});
           //   }
           // });
+
 
 
 // ==================================

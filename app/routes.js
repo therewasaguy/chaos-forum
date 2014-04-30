@@ -1,11 +1,31 @@
 module.exports = function(app, passport) {
+  
+  var Blog = require('../app/models/post');
+
 
   // ============================
   // HOME PAGE (with login links)
   // ============================
+
+  app.use(getBlogCount);
+
   app.get('/home', function(req, res) {
     res.render('index');
   });
+
+  function getBlogCount(req, res, next){
+    Blog.count(function(err, count){
+      res.locals.blogCount = count;
+      
+      next();
+    }); 
+  }
+
+  app.get('/postCount', function(req, res){
+    res.send("Blog count:"+res.locals.blogCount);
+  });
+
+
 
   app.get('/', function(req, res){
     var dataToSend = data;
@@ -96,6 +116,44 @@ module.exports = function(app, passport) {
     data.user = null;
     res.redirect('/');
   });
+
+
+  // =====================================
+  // NEW POST ============================
+  // =====================================
+  app.post('/newpost', function(req, res){
+    // create the post
+    var newBlog = new Blog();
+    newBlog.username = req.session.username;
+    newBlog.subject = req.body['pSubject'];
+    newBlog.time = new Date();
+    newBlog.body = req.body['pBody'];
+    newBlog.image = "public/img/common/tilo-avatar.png";
+
+    // save the post
+    newBlog.save(function(err) {
+      if (err) {
+        throw err;
+      }
+      else {
+
+        res.redirect('/');
+
+//        Blog.updateBlogs();  //update blog count is index page's responsibility
+
+        //render the index page with the new blog and a message saying "nice one!"
+//        res.render('index', data);
+
+//        return done(null, newBlog);
+
+      }
+    });
+
+
+  });
+
+
+
 };
 
 
