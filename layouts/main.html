@@ -11,6 +11,15 @@
 
 
 <div id="layout" class="content pure-g">
+
+      <!-- display error messages -->
+      <div id="main" class="pure-u-1">
+        {{#greaterThan message 0}}
+        <div class="alert alert-danger">
+            Warning: {{{message}}}
+        </div>
+        {{/greaterThan}}
+
     <div id="nav" class="pure-u">
         <a href="#" class="nav-menu-button">Menu</a>
 

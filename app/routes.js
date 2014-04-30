@@ -8,8 +8,16 @@ module.exports = function(app, passport) {
   });
 
   app.get('/', function(req, res){
-    // data.loggedInUsername = req.session.username;
-    res.render('index', data);
+    var dataToSend = data;
+    if (data.redirect) {
+          dataToSend.message = 'must be logged in to do that';
+          data.redirect = false;
+    }
+    else {
+      data.message = 0;
+      data.redirect = false;
+    }
+    res.render('index', dataToSend);
   });
 
 
@@ -17,6 +25,12 @@ module.exports = function(app, passport) {
 
     // render the page and pass in any flash data if it exists
     res.render('login', {message: req.flash('loginMessage')}); 
+  });
+
+  app.get('/new_account_duplicate', function(req, res) {
+
+    // render the page and pass in any flash data if it exists
+    res.render('login', {message: req.flash('signupMessage')}); 
   });
 
   // process the login form
@@ -41,7 +55,7 @@ module.exports = function(app, passport) {
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect : '/profile',
-    failureRedirect : '/login',
+    failureRedirect : '/new_account_duplicate',
     failureFlash : true, // allow Flash messages
   }));
 
@@ -79,10 +93,13 @@ module.exports = function(app, passport) {
 function isLoggedIn(req, res, next) {
 
   // if user is authenticated in the session, carry on 
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    data.message = 0;
     return next();
+  }
 
-  // if they aren't redirect them to the home page
-  res.redirect('/');
+  // if they aren't redirect them to the home page with error message "must be logged in to do that"
+  data.redirect = true;
+  res.redirect('/'); //, { message: req.flash('must be logged in to do that') });
 }
 
