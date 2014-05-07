@@ -1,3 +1,5 @@
+
+
     <div id="list" class="pure-u-1">
         <div class="email-item email-item-selected pure-g">
             {{#blogs}}
@@ -5,15 +7,29 @@
                 <img class="email-avatar" alt="Tilo Mitra&#x27;s avatar" height="64" width="64" src={{ image }} >
             </div>
             <div class="pure-u-3-4">
-                <h5 class="email-name"> {{{ username }}} {{{ time }}}</h5>
-                <h4 class="email-subject"> {{{ subject}}}</h4>
+                <h4 class="email-subject"> {{{trimString subject 26}}}</h4>
+                <h5 class="email-name"> Started by {{{ owner }}} </h5>
                 <p class="email-desc">
-                    {{{ body }}}
+                    <em>{{{trimString body 30}}}</em>
                 </p>
             </div>
             {{/blogs}}
         </div>
     </div>
+
+
+<div class="headMessage">
+  <h1>
+  {{#if failedLogIn}}
+  Sorry that is wrong
+  {{/if}}
+  {{#if user.local.email}}
+  Welcome to the chaos forum, <a href="/profile">{{{user.local.email}}}</a>!
+  {{else}}
+  Please <a href="/login">log in</a>.
+  {{/if}}
+  </h1>
+</div>
 
     <div id="main" class="pure-u-1">
       <div class="email-content">
@@ -22,11 +38,12 @@
                 <div class="pure-u-1-2">
                     <h1 class="email-content-title">{{{ subject }}}</h1>
                     <p class="email-content-subtitle">
-                        From <a>{{{ username}}}</a> at <span>{{{ time }}}</span>
+                        Thread started by <a>{{{ owner}}}</a> at <span>{{{ time }}}</span>
+                        {{#if versions}} Versions: {{{versions.length}}}. Contributors: {{#versions}}{{{user}}}, {{/versions}} {{/if}}
                     </p>
                 </div>
                 <div class="email-content-controls pure-u-1-2">
-                    <button class="secondary-button pure-button">Edit</button>
+                    <button name="{{ id }}" class="secondary-button pure-button" onclick="editPost(this.name)">Edit</button>
                 </div>
             </div>
           <div class="email-content-body">
@@ -35,17 +52,4 @@
           </div>
             {{/blogs}}
 
-<div class="email-content-body">
-  <h1>Welcome!</h1>
 
-  <p>
-  {{#if failedLogIn}}
-  Sorry that is wrong
-  {{/if}}
-  {{#if loggedIn}}
-  You Successfully logged in as {{{ u }}}
-  {{else}}
-  Please <a href="/login">log in</a>.
-  {{/if}}
-  </p>
-</div>

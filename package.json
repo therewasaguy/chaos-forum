@@ -15,13 +15,14 @@
     "hbs": "~2.6.0",
     "morgan": "*",
     "mongoose": "~3.8.1",
-    "passport" : "~0.1.17",     
-    "passport-local" : "~0.1.6",  
-    "passport-facebook" : "~1.0.2", 
-    "passport-twitter" : "~1.0.2",  
-    "passport-google-oauth" : "~0.1.5",
-    "connect-flash" : "~0.1.1",   
-    "bcrypt-nodejs" : "latest"
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "passport-facebook": "~1.0.2",
+    "passport-twitter": "~1.0.2",
+    "passport-google-oauth": "~0.1.5",
+    "connect-flash": "~0.1.1",
+    "bcrypt-nodejs": "latest",
+    "cloudinary": "~1.0.9"
   },
   "author": "jsonseegz",
   "license": "BSD-2-Clause"

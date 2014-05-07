@@ -38,6 +38,14 @@ a {
     font-size: 80%;
 }
 
+.email-content-controls {
+    width: -50px;
+}
+
+.pure-u-1-2, {
+    width: 75%;
+}
+
 /*
  * -- LAYOUT STYLES --
  * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
@@ -179,7 +187,7 @@ a {
 
 /* Email Content Styles */
 .email-content-header, .email-content-body, .email-content-footer {
-    padding: 1em 2em;
+    padding: 1em 1em 0em 1em;
 }
     .email-content-header {
         border-bottom: 1px solid #ddd;
@@ -187,11 +195,14 @@ a {
 
         .email-content-title {
             margin: 0.5em 0 0;
+            width: 595px;
+
         }
         .email-content-subtitle {
-            font-size: 1em;
+            font-size: .7em;
             margin: 0;
             font-weight: normal;
+            width: 620px;
         }
             .email-content-subtitle span {
                 color: #999;
@@ -209,7 +220,10 @@ a {
         height: 40px;
     }
 
-
+    .headMessage {
+    padding: 1em 2em;
+    background-color: yellow;
+    }
 /*
  * -- TABLET (AND UP) MEDIA QUERIES --
  * On tablets and other medium-sized devices, we want to customize some

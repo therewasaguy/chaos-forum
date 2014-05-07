@@ -12,7 +12,7 @@ function updateUsers() {
   User.find(function (err, allUsers) {
     if (err) return console.error(err);
     data.users = allUsers;
-    console.log(allUsers);
+    console.log("loaded users");
   });
   //query database to get the user count, which is asynchronous, set it on callback
   User.count({}, function( err, count){
@@ -57,6 +57,7 @@ module.exports = function(passport) {
     // process.next tick defers the execution of an action till the next pass around the event loop
     process.nextTick(function() {
 
+      //log the image name
       // find a user whose email is the same as the forms email, if the user exists
       User.findOne({ 'local.email' : email }, function(err, user) {
         // if there are any errors, return the errors
@@ -70,6 +71,24 @@ module.exports = function(passport) {
 
           // if user does not exist, creat the user
           var newUser = new User();
+
+            // ==============================================
+            // TO DO: upload the image  here
+            console.log("the image is: " + req.body['image']);
+            console.log(req.files);
+            cloudinary.uploader.upload(
+              req.files.file.path,
+              function(result) {
+                console.log(result);
+                var imageUrl = result.url;
+              },
+              {
+                public_id: 'sample_id',
+                crop: 'limit',
+                
+              }
+              )
+
 
           // set the user's local credentials
           newUser.local.email = email;

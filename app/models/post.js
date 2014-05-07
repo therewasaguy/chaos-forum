@@ -10,16 +10,24 @@ var mongoose = require('mongoose');
 //       imageSmall: "public/img/common/tilo-avatar.png",
 //       body:
 
+
+//var ObjectId = Schema.ObjectId;
+
 // Sub Docs
 
 var postSchema = mongoose.Schema({
-
-    username    : String,
+    owner       : String,
     subject     : String,
     time        : Date,
     body        : String,
-    image       : String
-
+    image       : String,
+    versions : [{
+      user : String,
+      body : String,
+      subject : String,
+      image : String,
+      time : Date
+    }]
 });
 
 // methods ================
@@ -27,11 +35,12 @@ postSchema.methods.updateBlogs = function() {
   this.find(function (err, allPosts) {
     if (err) return console.error(err);
     data.blogs = allPosts;
-    console.log(allPosts);
+//    console.log(allPosts);
+    console.log('testing');
   });
   //query database to get the post count
   this.count({}, function (err, count){
-    console.log("number of posts: ", count);
+//    console.log("number of posts: ", count);
     data.blogCount = count;
   });  
 }

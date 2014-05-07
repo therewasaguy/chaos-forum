@@ -13,8 +13,21 @@ var expressSession = require('express-session');
 var logger = require('morgan');
 var configDB = require('./config/database.js');
 
+// =====================
+// image uploads
+// =====================
+// var cloudinary = require('cloudinary');
 
-//configuration =======
+// console.log(cloudinary_api_key);
+
+// cloudinary.config({ 
+//   cloud_name: 'sample', 
+//   api_key: '435364252876614', 
+//   api_secret: '5CIGCMbQyRPLxQoY-G55nwj76Gg' 
+// });
+
+
+// configuration =======
 mongoose.connect(configDB.url); //connect to the DB from database.js file
 
 hbs = xhbs.create();
@@ -42,51 +55,29 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 require('./config/passport')(passport); // pass passport for configuration
 
 
-// /////////////////////////////////////////////
-
-          // app.post('/index', function(req, res){
-          //   console.log('body params: ', req.body);
-
-          //   var username = req.body['username'];
-          //   var email = req.body['email'];
-          //   var password = req.body['password'];
-          //   var postSubject = req.body['pSubject'];
-          //   var postBody = req.body['pBody'];
-
-          //   if ( validSignup(username, password, email)) {
-          //     req.session.username = username;
-          //     data.loggedIn = true;
-          //     data.u = username;
-          //   //add new post 
-          //     if (postSubject) {
-          //       data.posts.push( {
-          //         name: req.session.username,
-          //         subj: postSubject,
-          //         time: new Date(),
-          //         desc: postSubject,
-          //         imageSmall: "/img/common/tilo-avatar.png",
-          //         body: postBody
-          //       })
-          //     }
-          //     res.render('index', data);
-
-          //   } else {
-          //     res.render('signup', {failedLogin: true, posts: data.posts});
-          //   }
-          // });
-
-
 
 // ==================================
 // Handlebars Helpers
 // =====================
 hbs.registerHelper('greaterThan', function(v1, v2, options) {
-  if(v1.length > v2) {
-    return options.fn(this);
+  if (v1) {
+    if(v1.length > v2) {
+      return options.fn(this);
+    }
   }
   return false;
 });
 
+hbs.registerHelper('trimString', function(passedString, maxLength) {
+    var theString = passedString;
+    if (passedString.length > maxLength)
+      theString = passedString.substring(0,maxLength) + "...";
+    return new hbs.SafeString(theString)
+});
+
+hbs.registerHelper('last', function(array) {
+  return array[array.length-1];
+});
 
 var port = (process.env.PORT || 8080);
 app.listen(port,function() {console.log('listening on port ' + port)});

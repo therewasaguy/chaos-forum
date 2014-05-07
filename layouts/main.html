@@ -5,6 +5,12 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
     <link rel="stylesheet" href="../public/css/layouts/email.css">
     <title>{{title}}</title>
+    <script>
+      function editPost(postID) {
+        console.log(postID.toString());
+        window.location.href='/editpost?postID='+postID;
+      }
+      </script>
   </head>
 
   <body>
