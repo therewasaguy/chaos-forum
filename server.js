@@ -75,8 +75,17 @@ hbs.registerHelper('trimString', function(passedString, maxLength) {
     return new hbs.SafeString(theString)
 });
 
-hbs.registerHelper('last', function(array) {
-  return array[array.length-1];
+hbs.registerHelper('last', function(anArray, _attr) {
+  var attr = _attr.toString();
+  console.log(attr + " is of type " + typeof(attr));
+  // var anItem = function() {
+  var anItem = anArray[anArray.length-1];
+  var thing = anItem;
+  // }
+  if (anItem) {
+    return thing[attr];
+  }
+  else return
 });
 
 var port = (process.env.PORT || 8080);
